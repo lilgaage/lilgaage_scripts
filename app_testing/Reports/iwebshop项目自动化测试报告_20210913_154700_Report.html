@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>iwebshop网站自动化测试报告</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
+<style type="text/css" media="screen">
+body        { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 20px; font-size: 80%; }
+table       { font-size: 100%; }
+
+/* -- heading ---------------------------------------------------------------------- */
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+
+/* -- report ------------------------------------------------------------------------ */
+#total_row  { font-weight: bold; }
+.passCase   { color: #5cb85c; }
+.failCase   { color: #d9534f; font-weight: bold; }
+.errorCase  { color: #f0ad4e; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+</style>
+
+</head>
+<body >
+<script language="javascript" type="text/javascript">
+output_list = Array();
+
+/*level 调整增加只显示通过用例的分类 --Findyou
+0:Summary //all hiddenRow
+1:Failed  //pt hiddenRow, ft none
+2:Pass    //pt none, ft hiddenRow
+3:All     //pt none, ft none
+*/
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level == 2 || level == 0 ) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level < 2) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+    }
+
+    //加入【详细】切换文字变化 --Findyou
+    detail_class=document.getElementsByClassName('detail');
+	//console.log(detail_class.length)
+	if (level == 3) {
+		for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="收起"
+		}
+	}
+	else{
+			for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="详细"
+		}
+	}
+}
+
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        //ID修改 点 为 下划线 -Findyou
+        tid0 = 't' + cid.substr(1) + '_' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        //修改点击无法收起的BUG，加入【详细】切换文字变化 --Findyou
+        if (toHide) {
+            document.getElementById(tid).className = 'hiddenRow';
+            document.getElementById(cid).innerText = "详细"
+        }
+        else {
+            document.getElementById(tid).className = '';
+            document.getElementById(cid).innerText = "收起"
+        }
+    }
+}
+
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+</script>
+<div class='heading'>
+<h1 style="font-family: Microsoft YaHei; text-align: center">iwebshop网站自动化测试报告</h1>
+<p class='attribute'><strong>测试人员 : </strong> lilgaage</p>
+<p class='attribute'><strong>开始时间 : </strong> 2021-09-13 15:47:00</p>
+<p class='attribute'><strong>合计耗时 : </strong> 0:10:18.770574</p>
+<p class='attribute'><strong>测试结果 : </strong> 共 60，通过 56，失败 3，错误 1，通过率= 93.33%</p>
+
+<p class='description'>项目版本：2.3.4selenium: 3.141.0操作系统:win7python: 35.0+pycharm:社区版浏览器：Chrome92.0 或Firefox60.0</p>
+</div>
+
+
+
+<p id='show_detail_line'>
+<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 93.33% }</a>
+<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 3 }</a>
+<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 56 }</a>
+<a class="btn btn-info" href='javascript:showCase(3)'>所有{ 60 }</a>
+</p>
+<table id='result_table' class="table table-condensed table-bordered table-hover">
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 14px;">
+    <td>用例集/测试用例</td>
+    <td>总计</td>
+    <td>通过</td>
+    <td>失败</td>
+    <td>错误</td>
+    <td>详细</td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H37_判断后台登录用户是否为超级管理员.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c1',1)" class="detail" id='c1'>详细</a></td>
+</tr>
+
+<tr id='pt1_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_037</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H38_管理员添加会员流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c2',1)" class="detail" id='c2'>详细</a></td>
+</tr>
+
+<tr id='pt2_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_038</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H39_管理员删除会员流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c3',1)" class="detail" id='c3'>详细</a></td>
+</tr>
+
+<tr id='pt3_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_039</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H40_管理员给用户充值流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c4',1)" class="detail" id='c4'>详细</a></td>
+</tr>
+
+<tr id='pt4_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_040</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H41_管理员给用户提现流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c5',1)" class="detail" id='c5'>详细</a></td>
+</tr>
+
+<tr id='pt5_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_041</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H42_管理员添加商品流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c6',1)" class="detail" id='c6'>详细</a></td>
+</tr>
+
+<tr id='pt6_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_042</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H43_管理员下架商品流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c7',1)" class="detail" id='c7'>详细</a></td>
+</tr>
+
+<tr id='pt7_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_043</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H44_管理员上架商品流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c8',1)" class="detail" id='c8'>详细</a></td>
+</tr>
+
+<tr id='pt8_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_044</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H45_管理员打印购物清单流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c9',1)" class="detail" id='c9'>详细</a></td>
+</tr>
+
+<tr id='pt9_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_045</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H46_管理员打印配货单流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c10',1)" class="detail" id='c10'>详细</a></td>
+</tr>
+
+<tr id='pt10_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_046</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H47_管理员添加发货信息流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c11',1)" class="detail" id='c11'>详细</a></td>
+</tr>
+
+<tr id='pt11_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_047</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H48_管理员禁用线下支付方式流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c12',1)" class="detail" id='c12'>详细</a></td>
+</tr>
+
+<tr id='pt12_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_048</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H49_管理员启用线下支付方式流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c13',1)" class="detail" id='c13'>详细</a></td>
+</tr>
+
+<tr id='pt13_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_049</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H50_管理员添加支付宝支付流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c14',1)" class="detail" id='c14'>详细</a></td>
+</tr>
+
+<tr id='pt14_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_050</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H51_管理员添加配送方式流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c15',1)" class="detail" id='c15'>详细</a></td>
+</tr>
+
+<tr id='pt15_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_051</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H52_管理员添加文章流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c16',1)" class="detail" id='c16'>详细</a></td>
+</tr>
+
+<tr id='pt16_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_052</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H53_管理员备份数据库流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c17',1)" class="detail" id='c17'>详细</a></td>
+</tr>
+
+<tr id='pt17_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_053</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H54_管理员查看资金操作记录流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c18',1)" class="detail" id='c18'>详细</a></td>
+</tr>
+
+<tr id='pt18_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_054</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H55_管理员查看后台操作记录流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c19',1)" class="detail" id='c19'>详细</a></td>
+</tr>
+
+<tr id='pt19_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_055</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H56_管理员修改商品信息流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c20',1)" class="detail" id='c20'>详细</a></td>
+</tr>
+
+<tr id='pt20_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_056</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H57_网站订单发货流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c21',1)" class="detail" id='c21'>详细</a></td>
+</tr>
+
+<tr id='pt21_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_057</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>Iweb_H58_网站订单退款流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c22',1)" class="detail" id='c22'>详细</a></td>
+</tr>
+
+<tr id='ft22_1' class='none'>
+    <td class='errorCase'><div class='testcase'>test_iwebshop_H_058</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft22_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft22_1'>错误</button>
+    <div id='div_ft22_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft22_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft22_1'>错误</button>
+    <div id='div_ft22_1' class="collapse in">
+    <pre>
+    
+ft22_1: Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\lilgaage\python\web_testing\Iwebshop_LilGaage\Case\Iweb_H58_网站订单退款流程.py", line 26, in test_iwebshop_H_058
+    driver.find_element_by_id('refundmentyes').click()
+  File "D:\Python\Python3.7\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 360, in find_element_by_id
+    return self.find_element(by=By.ID, value=id_)
+  File "D:\Python\Python3.7\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "D:\Python\Python3.7\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "D:\Python\Python3.7\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id="refundmentyes"]"}
+  (Session info: chrome=92.0.4515.159)
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H59_网站订单退货流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c23',1)" class="detail" id='c23'>详细</a></td>
+</tr>
+
+<tr id='pt23_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_059</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_H60_网站订单作废流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c24',1)" class="detail" id='c24'>详细</a></td>
+</tr>
+
+<tr id='pt24_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_H_060</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q01_判断注册时邮箱格式不对是否会提示错误.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c25',1)" class="detail" id='c25'>详细</a></td>
+</tr>
+
+<tr id='pt25_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_001</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q02_判断注册时用户名包含特殊符号是否会提示错误.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c26',1)" class="detail" id='c26'>详细</a></td>
+</tr>
+
+<tr id='pt26_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_002</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q03_判断注册时密码输入5个字符是否会提示错误.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c27',1)" class="detail" id='c27'>详细</a></td>
+</tr>
+
+<tr id='pt27_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_003</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q04_判断注册时确认密码与密码不一致是否会提示错误.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c28',1)" class="detail" id='c28'>详细</a></td>
+</tr>
+
+<tr id='pt28_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_004</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q05_判断注册时验证码输入与图片不一致是否会提示错误.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c29',1)" class="detail" id='c29'>详细</a></td>
+</tr>
+
+<tr id='pt29_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_005</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>Iweb_Q06_判断正常输入注册信息能否注册成功.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c30',1)" class="detail" id='c30'>详细</a></td>
+</tr>
+
+<tr id='ft30_1' class='none'>
+    <td class='failCase'><div class='testcase'>test_iwebshop_Q_006</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft30_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft30_1'>失败</button>
+    <div id='div_ft30_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft30_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft30_1'>失败</button>
+    <div id='div_ft30_1' class="collapse in">
+    <pre>
+    
+ft30_1: Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\lilgaage\python\web_testing\Iwebshop_LilGaage\Case\Iweb_Q06_判断正常输入注册信息能否注册成功.py", line 30, in test_iwebshop_Q_006
+    self.assertEqual(Expected, Actual)
+AssertionError: 'http[20 chars]shop/index.php?controller=simple&amp;action=success_info&amp;callback=' != 'http[20 chars]shop/index.php?controller=simple&amp;action=reg_act'
+- http://10.10.36.251/iwebshop/index.php?controller=simple&amp;action=success_info&amp;callback=
+?                                                                 ^^^^ ^^ ----------  ^^
++ http://10.10.36.251/iwebshop/index.php?controller=simple&amp;action=reg_act
+?                                                                 ^ ^   ^
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q07_判断注册时使用已注册邮箱能否注册成功.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c31',1)" class="detail" id='c31'>详细</a></td>
+</tr>
+
+<tr id='pt31_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_007</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>Iweb_Q08_判断登录时使用错误密码能否登录成功.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c32',1)" class="detail" id='c32'>详细</a></td>
+</tr>
+
+<tr id='ft32_1' class='none'>
+    <td class='failCase'><div class='testcase'>test_iwebshop_Q_008</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft32_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft32_1'>失败</button>
+    <div id='div_ft32_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft32_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft32_1'>失败</button>
+    <div id='div_ft32_1' class="collapse in">
+    <pre>
+    
+ft32_1: Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\lilgaage\python\web_testing\Iwebshop_LilGaage\Case\Iweb_Q08_判断登录时使用错误密码能否登录成功.py", line 28, in test_iwebshop_Q_008
+    self.assertEqual(Expected, Actual)
+AssertionError: 'http[23 chars]p/index.php?controller=simple&amp;controller=simple&amp;action=reg_act' != 'http[23 chars]p/index.php?controller=simple&amp;action=login_act'
+- http://10.10.36.251/iwebshop/index.php?controller=simple&amp;controller=simple&amp;action=reg_act
+?                                                          ------------------       ^^
++ http://10.10.36.251/iwebshop/index.php?controller=simple&amp;action=login_act
+?                                                                 ^^ ++
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>Iweb_Q09_判断登录时使用未注册的账号能否登录成功.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c33',1)" class="detail" id='c33'>详细</a></td>
+</tr>
+
+<tr id='ft33_1' class='none'>
+    <td class='failCase'><div class='testcase'>test_iwebshop_Q_009</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft33_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft33_1'>失败</button>
+    <div id='div_ft33_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft33_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft33_1'>失败</button>
+    <div id='div_ft33_1' class="collapse in">
+    <pre>
+    
+ft33_1: Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\lilgaage\python\web_testing\Iwebshop_LilGaage\Case\Iweb_Q09_判断登录时使用未注册的账号能否登录成功.py", line 28, in test_iwebshop_Q_009
+    self.assertEqual(Expected, Actual)
+AssertionError: 'http[23 chars]p/index.php?controller=simple&amp;controller=simple&amp;action=reg_act' != 'http[23 chars]p/index.php?controller=simple&amp;action=login_act'
+- http://10.10.36.251/iwebshop/index.php?controller=simple&amp;controller=simple&amp;action=reg_act
+?                                                          ------------------       ^^
++ http://10.10.36.251/iwebshop/index.php?controller=simple&amp;action=login_act
+?                                                                 ^^ ++
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q10_判断登录后是否自动跳转到我的账户页面.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c34',1)" class="detail" id='c34'>详细</a></td>
+</tr>
+
+<tr id='pt34_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_010</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q11_判断登录用户是否为李张格.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c35',1)" class="detail" id='c35'>详细</a></td>
+</tr>
+
+<tr id='pt35_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_011</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q12_普通用户登录退出流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c36',1)" class="detail" id='c36'>详细</a></td>
+</tr>
+
+<tr id='pt36_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_012</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q13_普通用户登录浏览退出流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c37',1)" class="detail" id='c37'>详细</a></td>
+</tr>
+
+<tr id='pt37_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_013</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q14_普通用户登录加入购物车退出流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c38',1)" class="detail" id='c38'>详细</a></td>
+</tr>
+
+<tr id='pt38_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_014</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q15_判断服饰品牌选择Kappa能不能正确筛选出商品.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c39',1)" class="detail" id='c39'>详细</a></td>
+</tr>
+
+<tr id='pt39_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_015</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q16_判断化妆品品牌选择赫莲娜能不能正确筛选出商品.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c40',1)" class="detail" id='c40'>详细</a></td>
+</tr>
+
+<tr id='pt40_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_016</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q17_判断家居家装类的二级分类是不是厨房用具家纺灯具三类.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c41',1)" class="detail" id='c41'>详细</a></td>
+</tr>
+
+<tr id='pt41_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_017</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q18_判断电脑手机数码类的销售排行榜是不是摩托罗拉手机.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c42',1)" class="detail" id='c42'>详细</a></td>
+</tr>
+
+<tr id='pt42_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_018</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q19_判断图书类的推荐书籍有没有杜拉拉升职记.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c43',1)" class="detail" id='c43'>详细</a></td>
+</tr>
+
+<tr id='pt43_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_019</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q20_游客查看网站所有品牌流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c44',1)" class="detail" id='c44'>详细</a></td>
+</tr>
+
+<tr id='pt44_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_020</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q21_游客查看网站配送范围及运费流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c45',1)" class="detail" id='c45'>详细</a></td>
+</tr>
+
+<tr id='pt45_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_021</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q22_游客查看网站会员制度流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c46',1)" class="detail" id='c46'>详细</a></td>
+</tr>
+
+<tr id='pt46_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_022</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q23_游客查看网站售后服务流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c47',1)" class="detail" id='c47'>详细</a></td>
+</tr>
+
+<tr id='pt47_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_023</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q24_游客搜索香水相关商品流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c48',1)" class="detail" id='c48'>详细</a></td>
+</tr>
+
+<tr id='pt48_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_024</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q25_普通用户登录添加收货地址流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c49',1)" class="detail" id='c49'>详细</a></td>
+</tr>
+
+<tr id='pt49_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_025</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q26_普通用户登录查看购物车流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c50',1)" class="detail" id='c50'>详细</a></td>
+</tr>
+
+<tr id='pt50_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_026</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q27_普通用户登录提交订单流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c51',1)" class="detail" id='c51'>详细</a></td>
+</tr>
+
+<tr id='pt51_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_027</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q28_普通用户登录在订单页结算流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c52',1)" class="detail" id='c52'>详细</a></td>
+</tr>
+
+<tr id='pt52_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_028</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q29_普通用户登录取消订单流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c53',1)" class="detail" id='c53'>详细</a></td>
+</tr>
+
+<tr id='pt53_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_029</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q30_普通用户登录收藏商品流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c54',1)" class="detail" id='c54'>详细</a></td>
+</tr>
+
+<tr id='pt54_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_030</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q31_普通用户登录取消收藏商品流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c55',1)" class="detail" id='c55'>详细</a></td>
+</tr>
+
+<tr id='pt55_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_031</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q32_普通用户登录查看个人积分流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c56',1)" class="detail" id='c56'>详细</a></td>
+</tr>
+
+<tr id='pt56_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_032</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q33_普通用户登录查看余额流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c57',1)" class="detail" id='c57'>详细</a></td>
+</tr>
+
+<tr id='pt57_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_033</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q34_普通用户登录查看Shop资讯流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c58',1)" class="detail" id='c58'>详细</a></td>
+</tr>
+
+<tr id='pt58_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_034</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q35_普通用户登录查看团购商品流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c59',1)" class="detail" id='c59'>详细</a></td>
+</tr>
+
+<tr id='pt59_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_035</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>Iweb_Q36_普通用户登录订阅网站资讯流程.Case01</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c60',1)" class="detail" id='c60'>详细</a></td>
+</tr>
+
+<tr id='pt60_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_iwebshop_Q_036</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='total_row' class="text-center active">
+    <td>总计</td>
+    <td>60</td>
+    <td>56</td>
+    <td>3</td>
+    <td>1</td>
+    <td>通过率：93.33%</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+    <div style=" position:fixed;right:50px; bottom:30px; width:20px; height:20px;cursor:pointer">
+    <a href="#"><span class="glyphicon glyphicon-eject" style = "font-size:30px;" aria-hidden="true">
+    </span></a></div>
+    
+
+</body>
+</html>
