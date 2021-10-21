@@ -1,0 +1,1501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>学院增删改查接口测试</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
+<style type="text/css" media="screen">
+body        { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 20px; font-size: 80%; }
+table       { font-size: 100%; }
+
+/* -- heading ---------------------------------------------------------------------- */
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+
+/* -- report ------------------------------------------------------------------------ */
+#total_row  { font-weight: bold; }
+.passCase   { color: #5cb85c; }
+.failCase   { color: #d9534f; font-weight: bold; }
+.errorCase  { color: #f0ad4e; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+</style>
+
+</head>
+<body >
+<script language="javascript" type="text/javascript">
+output_list = Array();
+
+/*level 调整增加只显示通过用例的分类 --Findyou
+0:Summary //all hiddenRow
+1:Failed  //pt hiddenRow, ft none
+2:Pass    //pt none, ft hiddenRow
+3:All     //pt none, ft none
+*/
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level == 2 || level == 0 ) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level < 2) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+    }
+
+    //加入【详细】切换文字变化 --Findyou
+    detail_class=document.getElementsByClassName('detail');
+	//console.log(detail_class.length)
+	if (level == 3) {
+		for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="收起"
+		}
+	}
+	else{
+			for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="详细"
+		}
+	}
+}
+
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        //ID修改 点 为 下划线 -Findyou
+        tid0 = 't' + cid.substr(1) + '_' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        //修改点击无法收起的BUG，加入【详细】切换文字变化 --Findyou
+        if (toHide) {
+            document.getElementById(tid).className = 'hiddenRow';
+            document.getElementById(cid).innerText = "详细"
+        }
+        else {
+            document.getElementById(tid).className = '';
+            document.getElementById(cid).innerText = "收起"
+        }
+    }
+}
+
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+</script>
+<div class='heading'>
+<h1 style="font-family: Microsoft YaHei; text-align: center">学院增删改查接口测试</h1>
+<p class='attribute'><strong>测试人员 : </strong> LilGaage</p>
+<p class='attribute'><strong>开始时间 : </strong> 2021-10-15 20:55:39</p>
+<p class='attribute'><strong>合计耗时 : </strong> 0:00:00.688588</p>
+<p class='attribute'><strong>测试结果 : </strong> 共 51，通过 23，失败 28，通过率= 45.10%</p>
+
+<p class='description'>操作系统:win7	python: 35.0+	pycharm:社区版</p>
+</div>
+
+
+
+<p id='show_detail_line'>
+<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 45.10% }</a>
+<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 28 }</a>
+<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 23 }</a>
+<a class="btn btn-info" href='javascript:showCase(3)'>所有{ 51 }</a>
+</p>
+<table id='result_table' class="table table-condensed table-bordered table-hover">
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 14px;">
+    <td>用例集/测试用例</td>
+    <td>总计</td>
+    <td>通过</td>
+    <td>失败</td>
+    <td>错误</td>
+    <td>详细</td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>APITest01_post_A.Departments001</td>
+    <td class="text-center">35</td>
+    <td class="text-center">10</td>
+    <td class="text-center">25</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c1',35)" class="detail" id='c1'>详细</a></td>
+</tr>
+
+<tr id='pt1_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_01</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_1'>通过</button>
+    <div id='div_pt1_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_1'>通过</button>
+    <div id='div_pt1_1' class="collapse in">
+    <pre>
+    
+pt1_1: 拼接的消息体数据为： {"data":[{"dep_id":"lizhangge","dep_name":"小瑰","master_name":"李张格","slogan":"所有瑰丝是一家"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"lizhangge","dep_name":"小瑰","master_name":"李张格","slogan":"所有瑰丝是一家"}]}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_02</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_2'>通过</button>
+    <div id='div_pt1_2' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_2'>通过</button>
+    <div id='div_pt1_2' class="collapse in">
+    <pre>
+    
+pt1_2: 拼接的消息体数据为： {"data":[{"dep_id":"","dep_name":"二皇子","master_name":"海云帆","slogan":"万法仙门"}]}
+获取到的新增响应报文为： {"dep_id":["该字段不能为空。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_03</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_3'>通过</button>
+    <div id='div_pt1_3' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_3'>通过</button>
+    <div id='div_pt1_3' class="collapse in">
+    <pre>
+    
+pt1_3: 拼接的消息体数据为： {"data":[{"dep_id":"王陆","dep_name":"","master_name":"许凯","slogan":"王陆是王舞的徒弟"}]}
+获取到的新增响应报文为： {"dep_name":["该字段不能为空。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_04</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_4'>通过</button>
+    <div id='div_pt1_4' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_4'>通过</button>
+    <div id='div_pt1_4' class="collapse in">
+    <pre>
+    
+pt1_4: 拼接的消息体数据为： {"data":[{"dep_id":"王舞","dep_name":"张榕容","master_name":"","slogan":"五长老"}]}
+获取到的新增响应报文为： {"master_name":["该字段不能为空。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_05</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_5'>通过</button>
+    <div id='div_pt1_5' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_5'>通过</button>
+    <div id='div_pt1_5' class="collapse in">
+    <pre>
+    
+pt1_5: 拼接的消息体数据为： {"data":[{"dep_id":"驭兽宗掌门是万兽之王","dep_name":"体内藏着六百六十六种兽魂六百六十六种兽魂","master_name":"体内藏着六百六十六种兽魂六百六十六种兽魂","slogan":"体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"驭兽宗掌门是万兽之王","dep_name":"体内藏着六百六十六种兽魂六百六十六种兽魂","master_name":"体内藏着六百六十六种兽魂六百六十六种兽魂","slogan":"体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂"}]}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_06</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_6'>通过</button>
+    <div id='div_pt1_6' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_6'>通过</button>
+    <div id='div_pt1_6' class="collapse in">
+    <pre>
+    
+pt1_6: 拼接的消息体数据为： {"data":[{"dep_id":"黑","dep_name":"地","master_name":"仙","slogan":""}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"黑","dep_name":"地","master_name":"仙","slogan":""}]}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_7' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_07</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_7'>失败</button>
+    <div id='div_ft1_7' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_7'>失败</button>
+    <div id='div_ft1_7' class="collapse in">
+    <pre>
+    
+ft1_7: 拼接的消息体数据为： {"data":[{"dep_id":"万兽之王就是驭兽宗掌门","dep_name":"万兽之王","master_name":"万兽之王","slogan":"万兽之王"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"万兽之王就是驭兽宗掌门","dep_name":"万兽之王","master_name":"万兽之王","slogan":"万兽之王"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_08</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_8' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_8'>通过</button>
+    <div id='div_pt1_8' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_8' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_8'>通过</button>
+    <div id='div_pt1_8' class="collapse in">
+    <pre>
+    
+pt1_8: 拼接的消息体数据为： {"data":[{"dep_id":"驭兽宗掌门","dep_name":"体内藏着六百六十六种兽魂和六百六十六种兽魂","master_name":"驭兽宗掌门","slogan":"驭兽宗掌门"}]}
+获取到的新增响应报文为： {"dep_name":["请确保这个字段不能超过 20 个字符。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_09</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_9' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_9'>通过</button>
+    <div id='div_pt1_9' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_9' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_9'>通过</button>
+    <div id='div_pt1_9' class="collapse in">
+    <pre>
+    
+pt1_9: 拼接的消息体数据为： {"data":[{"dep_id":"驭兽宗","dep_name":"驭兽宗","master_name":"体内藏着六百六十六种兽魂和六百六十六种兽魂","slogan":"驭兽宗"}]}
+获取到的新增响应报文为： {"master_name":["请确保这个字段不能超过 20 个字符。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_10' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_10</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_10' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_10'>通过</button>
+    <div id='div_pt1_10' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_10' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_10'>通过</button>
+    <div id='div_pt1_10' class="collapse in">
+    <pre>
+    
+pt1_10: 拼接的消息体数据为： {"data":[{"dep_id":"万兽之王","dep_name":"万兽之王","master_name":"万兽之王","slogan":"体内藏着六百六十六种兽魂和六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂"}]}
+获取到的新增响应报文为： {"slogan":["请确保这个字段不能超过 100 个字符。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_11' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_A_11</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_11' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_11'>通过</button>
+    <div id='div_pt1_11' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_11' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_11'>通过</button>
+    <div id='div_pt1_11' class="collapse in">
+    <pre>
+    
+pt1_11: 拼接的消息体数据为： {"data":[{"dep_id":"黑","dep_name":"大乘巅峰","master_name":"地仙","slogan":"堕仙走狗"}]}
+获取到的新增响应报文为： {"already_exist":{"count":1,"results":[{"dep_id":"黑","dep_name":"大乘巅峰","master_name":"地仙","slogan":"堕仙走狗"}]},"create_success":{"count":0,"results":[]}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_12' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_12</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_12' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_12'>失败</button>
+    <div id='div_ft1_12' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_12' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_12'>失败</button>
+    <div id='div_ft1_12' class="collapse in">
+    <pre>
+    
+ft1_12: 拼接的消息体数据为： {"data":[{"dep_id":"/test001/","dep_name":"test001","master_name":"test001","slogan":"test001"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"/test001/","dep_name":"test001","master_name":"test001","slogan":"test001"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_13' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_13</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_13' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_13'>失败</button>
+    <div id='div_ft1_13' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_13' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_13'>失败</button>
+    <div id='div_ft1_13' class="collapse in">
+    <pre>
+    
+ft1_13: 拼接的消息体数据为： {"data":[{"dep_id":" test002 ","dep_name":"test002","master_name":"test002","slogan":"test002"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test002","dep_name":"test002","master_name":"test002","slogan":"test002"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_14' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_14</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_14' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_14'>失败</button>
+    <div id='div_ft1_14' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_14' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_14'>失败</button>
+    <div id='div_ft1_14' class="collapse in">
+    <pre>
+    
+ft1_14: 拼接的消息体数据为： {"data":[{"dep_id":"%test003%","dep_name":"test003","master_name":"test003","slogan":"test003"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"%test003%","dep_name":"test003","master_name":"test003","slogan":"test003"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_15' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_15</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_15' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_15'>失败</button>
+    <div id='div_ft1_15' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_15' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_15'>失败</button>
+    <div id='div_ft1_15' class="collapse in">
+    <pre>
+    
+ft1_15: 拼接的消息体数据为： {"data":[{"dep_id":"$test004$","dep_name":"test004","master_name":"test004","slogan":"test004"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"$test004$","dep_name":"test004","master_name":"test004","slogan":"test004"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_16' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_16</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_16' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_16'>失败</button>
+    <div id='div_ft1_16' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_16' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_16'>失败</button>
+    <div id='div_ft1_16' class="collapse in">
+    <pre>
+    
+ft1_16: 拼接的消息体数据为： {"data":[{"dep_id":"#test005#","dep_name":"test005","master_name":"test005","slogan":"test005"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"#test005#","dep_name":"test005","master_name":"test005","slogan":"test005"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_17' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_17</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_17' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_17'>失败</button>
+    <div id='div_ft1_17' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_17' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_17'>失败</button>
+    <div id='div_ft1_17' class="collapse in">
+    <pre>
+    
+ft1_17: 拼接的消息体数据为： {"data":[{"dep_id":"@test006@","dep_name":"test006","master_name":"test006","slogan":"test006"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"@test006@","dep_name":"test006","master_name":"test006","slogan":"test006"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_18' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_18</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_18' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_18'>失败</button>
+    <div id='div_ft1_18' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_18' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_18'>失败</button>
+    <div id='div_ft1_18' class="collapse in">
+    <pre>
+    
+ft1_18: 拼接的消息体数据为： {"data":[{"dep_id":"test007","dep_name":"/test007/","master_name":"test007","slogan":"test007"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test007","dep_name":"/test007/","master_name":"test007","slogan":"test007"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_19' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_19</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_19' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_19'>失败</button>
+    <div id='div_ft1_19' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_19' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_19'>失败</button>
+    <div id='div_ft1_19' class="collapse in">
+    <pre>
+    
+ft1_19: 拼接的消息体数据为： {"data":[{"dep_id":"test008","dep_name":" test008 ","master_name":"test008","slogan":"test008"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test008","dep_name":"test008","master_name":"test008","slogan":"test008"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_20' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_20</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_20' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_20'>失败</button>
+    <div id='div_ft1_20' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_20' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_20'>失败</button>
+    <div id='div_ft1_20' class="collapse in">
+    <pre>
+    
+ft1_20: 拼接的消息体数据为： {"data":[{"dep_id":"test009","dep_name":"%test009%","master_name":"test009","slogan":"test009"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test009","dep_name":"%test009%","master_name":"test009","slogan":"test009"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_21' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_21</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_21' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_21'>失败</button>
+    <div id='div_ft1_21' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_21' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_21'>失败</button>
+    <div id='div_ft1_21' class="collapse in">
+    <pre>
+    
+ft1_21: 拼接的消息体数据为： {"data":[{"dep_id":"test010","dep_name":"$test010$","master_name":"test010","slogan":"test010"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test010","dep_name":"$test010$","master_name":"test010","slogan":"test010"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_22' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_22</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_22' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_22'>失败</button>
+    <div id='div_ft1_22' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_22' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_22'>失败</button>
+    <div id='div_ft1_22' class="collapse in">
+    <pre>
+    
+ft1_22: 拼接的消息体数据为： {"data":[{"dep_id":"test011","dep_name":"#test011#","master_name":"test011","slogan":"test011"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test011","dep_name":"#test011#","master_name":"test011","slogan":"test011"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_23' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_23</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_23' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_23'>失败</button>
+    <div id='div_ft1_23' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_23' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_23'>失败</button>
+    <div id='div_ft1_23' class="collapse in">
+    <pre>
+    
+ft1_23: 拼接的消息体数据为： {"data":[{"dep_id":"test012","dep_name":"@test012@","master_name":"test012","slogan":"test012"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test012","dep_name":"@test012@","master_name":"test012","slogan":"test012"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_24' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_24</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_24' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_24'>失败</button>
+    <div id='div_ft1_24' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_24' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_24'>失败</button>
+    <div id='div_ft1_24' class="collapse in">
+    <pre>
+    
+ft1_24: 拼接的消息体数据为： {"data":[{"dep_id":"test013","dep_name":"test013","master_name":"/test013/","slogan":"test013"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test013","dep_name":"test013","master_name":"/test013/","slogan":"test013"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_25' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_25</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_25' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_25'>失败</button>
+    <div id='div_ft1_25' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_25' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_25'>失败</button>
+    <div id='div_ft1_25' class="collapse in">
+    <pre>
+    
+ft1_25: 拼接的消息体数据为： {"data":[{"dep_id":"test014","dep_name":"test014","master_name":" test014 ","slogan":"test014"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test014","dep_name":"test014","master_name":"test014","slogan":"test014"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_26' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_26</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_26' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_26'>失败</button>
+    <div id='div_ft1_26' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_26' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_26'>失败</button>
+    <div id='div_ft1_26' class="collapse in">
+    <pre>
+    
+ft1_26: 拼接的消息体数据为： {"data":[{"dep_id":"test015","dep_name":"test015","master_name":"%test015%","slogan":"test015"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test015","dep_name":"test015","master_name":"%test015%","slogan":"test015"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_27' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_27</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_27' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_27'>失败</button>
+    <div id='div_ft1_27' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_27' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_27'>失败</button>
+    <div id='div_ft1_27' class="collapse in">
+    <pre>
+    
+ft1_27: 拼接的消息体数据为： {"data":[{"dep_id":"test016","dep_name":"test016","master_name":"$test016$","slogan":"test016"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test016","dep_name":"test016","master_name":"$test016$","slogan":"test016"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_28' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_28</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_28' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_28'>失败</button>
+    <div id='div_ft1_28' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_28' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_28'>失败</button>
+    <div id='div_ft1_28' class="collapse in">
+    <pre>
+    
+ft1_28: 拼接的消息体数据为： {"data":[{"dep_id":"test017","dep_name":"test017","master_name":"#test017#","slogan":"test017"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test017","dep_name":"test017","master_name":"#test017#","slogan":"test017"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_29' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_29</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_29' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_29'>失败</button>
+    <div id='div_ft1_29' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_29' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_29'>失败</button>
+    <div id='div_ft1_29' class="collapse in">
+    <pre>
+    
+ft1_29: 拼接的消息体数据为： {"data":[{"dep_id":"test018","dep_name":"test018","master_name":"@test018@","slogan":"test018"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test018","dep_name":"test018","master_name":"@test018@","slogan":"test018"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_30' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_30</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_30' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_30'>失败</button>
+    <div id='div_ft1_30' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_30' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_30'>失败</button>
+    <div id='div_ft1_30' class="collapse in">
+    <pre>
+    
+ft1_30: 拼接的消息体数据为： {"data":[{"dep_id":"test019","dep_name":"test019","master_name":"test019","slogan":"/test019/"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test019","dep_name":"test019","master_name":"test019","slogan":"/test019/"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_31' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_31</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_31' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_31'>失败</button>
+    <div id='div_ft1_31' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_31' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_31'>失败</button>
+    <div id='div_ft1_31' class="collapse in">
+    <pre>
+    
+ft1_31: 拼接的消息体数据为： {"data":[{"dep_id":"test020","dep_name":"test020","master_name":"test020","slogan":" test020 "}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test020","dep_name":"test020","master_name":"test020","slogan":"test020"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_32' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_32</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_32' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_32'>失败</button>
+    <div id='div_ft1_32' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_32' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_32'>失败</button>
+    <div id='div_ft1_32' class="collapse in">
+    <pre>
+    
+ft1_32: 拼接的消息体数据为： {"data":[{"dep_id":"test021","dep_name":"test021","master_name":"test021","slogan":"%test021%"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test021","dep_name":"test021","master_name":"test021","slogan":"%test021%"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_33' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_33</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_33' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_33'>失败</button>
+    <div id='div_ft1_33' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_33' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_33'>失败</button>
+    <div id='div_ft1_33' class="collapse in">
+    <pre>
+    
+ft1_33: 拼接的消息体数据为： {"data":[{"dep_id":"test022","dep_name":"test022","master_name":"test022","slogan":"$test022$"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test022","dep_name":"test022","master_name":"test022","slogan":"$test022$"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_34' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_34</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_34' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_34'>失败</button>
+    <div id='div_ft1_34' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_34' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_34'>失败</button>
+    <div id='div_ft1_34' class="collapse in">
+    <pre>
+    
+ft1_34: 拼接的消息体数据为： {"data":[{"dep_id":"test023","dep_name":"test023","master_name":"test023","slogan":"#test023#"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test023","dep_name":"test023","master_name":"test023","slogan":"#test023#"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_35' class='none'>
+    <td class='failCase'><div class='testcase'>test001_A_35</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_35' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_35'>失败</button>
+    <div id='div_ft1_35' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_35' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_35'>失败</button>
+    <div id='div_ft1_35' class="collapse in">
+    <pre>
+    
+ft1_35: 拼接的消息体数据为： {"data":[{"dep_id":"test024","dep_name":"test024","master_name":"test024","slogan":"@test024@"}]}
+获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test024","dep_name":"test024","master_name":"test024","slogan":"@test024@"}]}}
+Traceback (most recent call last):
+  File "D:\Python\Python3.7\lib\site-packages\ddt.py", line 191, in wrapper
+    return func(self, *args, **kwargs)
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest01_post_A.py", line 48, in test001_A
+    self.assertEqual(str(code_act), str(code_expect))
+AssertionError: '201' != '400'
+- 201
++ 400
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>APITest02_post_B缺失冗余.Departments002</td>
+    <td class="text-center">5</td>
+    <td class="text-center">5</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c2',5)" class="detail" id='c2'>详细</a></td>
+</tr>
+
+<tr id='pt2_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_B_surplus</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_1'>通过</button>
+    <div id='div_pt2_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_1'>通过</button>
+    <div id='div_pt2_1' class="collapse in">
+    <pre>
+    
+pt2_1: 获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"琉璃仙","dep_name":"小琉璃","master_name":"郭晓婷","slogan":"修炼剑心通明"}]}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test002_B_lack_slogan</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_2'>通过</button>
+    <div id='div_pt2_2' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_2'>通过</button>
+    <div id='div_pt2_2' class="collapse in">
+    <pre>
+    
+pt2_2: 获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"test213","dep_name":"test213","master_name":"test213","slogan":null}]}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test003_B_lack_dpid</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_3'>通过</button>
+    <div id='div_pt2_3' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_3'>通过</button>
+    <div id='div_pt2_3' class="collapse in">
+    <pre>
+    
+pt2_3: 获取到的新增响应报文为： {"dep_id":["该字段是必填项。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test004_B_lack_dpname</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_4'>通过</button>
+    <div id='div_pt2_4' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_4'>通过</button>
+    <div id='div_pt2_4' class="collapse in">
+    <pre>
+    
+pt2_4: 获取到的新增响应报文为： {"dep_name":["该字段是必填项。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test005_B_lack_mtname</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt2_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt2_5'>通过</button>
+    <div id='div_pt2_5' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt2_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt2_5'>通过</button>
+    <div id='div_pt2_5' class="collapse in">
+    <pre>
+    
+pt2_5: 获取到的新增响应报文为： {"master_name":["该字段是必填项。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>APITest03_post_C类型错误.Departments003</td>
+    <td class="text-center">4</td>
+    <td class="text-center">2</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c3',4)" class="detail" id='c3'>详细</a></td>
+</tr>
+
+<tr id='pt3_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_C_type_error001</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_1'>通过</button>
+    <div id='div_pt3_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_1'>通过</button>
+    <div id='div_pt3_1' class="collapse in">
+    <pre>
+    
+pt3_1: 获取到的新增响应报文为： {"dep_id":["Not a valid string."],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft3_2' class='none'>
+    <td class='failCase'><div class='testcase'>test002_C_type_error002</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft3_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft3_2'>失败</button>
+    <div id='div_ft3_2' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft3_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft3_2'>失败</button>
+    <div id='div_ft3_2' class="collapse in">
+    <pre>
+    
+ft3_2: 获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"望月鸾羽","dep_name":"34.58","master_name":"盛京仙门","slogan":"阴阳百宝箱"}]}}
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest03_post_C类型错误.py", line 42, in test002_C_type_error002
+    self.assertEqual(code_act, code_expect)
+AssertionError: 201 != 400
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft3_3' class='none'>
+    <td class='failCase'><div class='testcase'>test003_C_type_error003</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft3_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft3_3'>失败</button>
+    <div id='div_ft3_3' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft3_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft3_3'>失败</button>
+    <div id='div_ft3_3' class="collapse in">
+    <pre>
+    
+ft3_3: 获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":1,"results":[{"dep_id":"望月鸾云","dep_name":"真传弟子","master_name":"12345","slogan":"阴阳百宝箱"}]}}
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest03_post_C类型错误.py", line 58, in test003_C_type_error003
+    self.assertEqual(code_act, code_expect)
+AssertionError: 201 != 400
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt3_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test004_C_type_error004</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_4'>通过</button>
+    <div id='div_pt3_4' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_4'>通过</button>
+    <div id='div_pt3_4' class="collapse in">
+    <pre>
+    
+pt3_4: 获取到的新增响应报文为： {"slogan":["Not a valid string."],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>APITest04_post_D新增多个.Departments004</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c4',1)" class="detail" id='c4'>详细</a></td>
+</tr>
+
+<tr id='pt4_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_C_add_more001</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt4_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt4_1'>通过</button>
+    <div id='div_pt4_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt4_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt4_1'>通过</button>
+    <div id='div_pt4_1' class="collapse in">
+    <pre>
+    
+pt4_1: 获取到的新增响应报文为： {"already_exist":{"count":0,"results":[]},"create_success":{"count":3,"results":[{"dep_id":"洪荒巨兽","dep_name":"移山填海","master_name":"两百万年","slogan":"鸿蒙时代"},{"dep_id":"异兽祖巫","dep_name":"洪荒巫术","master_name":"百万年","slogan":"洪荒时代"},{"dep_id":"仙秦始皇","dep_name":"飞升仙界","master_name":"十万年","slogan":"太古时代"}]}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>APITest05_get.Departments005</td>
+    <td class="text-center">2</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c5',2)" class="detail" id='c5'>详细</a></td>
+</tr>
+
+<tr id='pt5_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_select_right</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_1'>通过</button>
+    <div id='div_pt5_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_1'>通过</button>
+    <div id='div_pt5_1' class="collapse in">
+    <pre>
+    
+pt5_1: 1.1接口返回的响应报文为： {"count":51,"next":"http://127.0.0.1:8000/api/departments/?page=2","previous":null,"results":[{"dep_id":"little_fox","dep_name":"小狐狸","master_name":"万窟山千狐洞","slogan":"小狐狸的妈妈去世了。"},{"dep_id":"ErlangGod","dep_name":"二哥","master_name":"灌江口","slogan":"二哥很庆幸有梅山兄弟和哮天犬陪着。"},{"dep_id":"moon","dep_name":"嫦娥","master_name":"广寒宫","slogan":"此生梦想是披上那美丽的月光"},{"dep_id":"flower","dep_name":"百花仙子","master_name":"其实就是花园的园丁","slogan":"人无千日好，花无百日红。"},{"dep_id":"monkey","dep_name":"孙悟空","master_name":"花果山水帘洞","slogan":"知恩不报非君子，万古千秋作骂名。"},{"dep_id":"jiabaoyu","dep_name":"贾宝玉","master_name":"荣国府","slogan":"他是意象化的小说人物，是作家的心灵的映像。"},{"dep_id":"lindaiyu","dep_name":"林黛玉","master_name":"荣国府","slogan":"一朝春尽红颜老，花落人亡两不知。"},{"dep_id":"xuebaochai","dep_name":"薛宝钗","master_name":"蘅芜苑","slogan":"聚叶泼成千点墨，攒花染出几痕霜。"},{"dep_id":"词","dep_name":"宋词","master_name":"苏轼","slogan":"醉里挑灯看剑"},{"dep_id":"曲","dep_name":"元曲","master_name":"关汉卿","slogan":"窦娥冤"},{"dep_id":"shaonian","dep_name":"不良少年","master_name":"ghsot","slogan":"反面教材"},{"dep_id":"buqin","dep_name":"不侵","master_name":"ghsot","slogan":"吹散迷雾"},{"dep_id":"dafenqi","dep_name":"达芬奇","master_name":"ghsot","slogan":"爱答不理"},{"dep_id":"comeback","dep_name":"救赎","master_name":"ghsot","slogan":"夜幕降临"},{"dep_id":"raining","dep_name":"下雨天","master_name":"ghsot","slogan":"沿途风景"},{"dep_id":"no808","dep_name":"无鼓点","master_name":"ghsot","slogan":"深陷其中"},{"dep_id":"lizhangge","dep_name":"小瑰","master_name":"李张格","slogan":"所有瑰丝是一家"},{"dep_id":"驭兽宗掌门是万兽之王","dep_name":"体内藏着六百六十六种兽魂六百六十六种兽魂","master_name":"体内藏着六百六十六种兽魂六百六十六种兽魂","slogan":"体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂"},{"dep_id":"黑","dep_name":"地","master_name":"仙","slogan":""},{"dep_id":"万兽之王就是驭兽宗掌门","dep_name":"万兽之王","master_name":"万兽之王","slogan":"万兽之王"}]}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_2' class='none'>
+    <td class='failCase'><div class='testcase'>test002_select_inverse</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_2'>失败</button>
+    <div id='div_ft5_2' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_2'>失败</button>
+    <div id='div_ft5_2' class="collapse in">
+    <pre>
+    
+ft5_2: 1.3接口参数值类型错误返回的响应报文为： {"count":0,"next":null,"previous":null,"results":[]}
+Traceback (most recent call last):
+  File "C:\Users\Administrator\Desktop\lilgaage\Automated_Testing\DptTest\case\APITest05_get.py", line 38, in test002_select_inverse
+    self.assertEqual(code_act, code_expect)
+AssertionError: 200 != 400
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>APITest06_put.Departments006</td>
+    <td class="text-center">2</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c6',2)" class="detail" id='c6'>详细</a></td>
+</tr>
+
+<tr id='pt6_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_update_right</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt6_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt6_1'>通过</button>
+    <div id='div_pt6_1' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt6_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt6_1'>通过</button>
+    <div id='div_pt6_1' class="collapse in">
+    <pre>
+    
+pt6_1: 更新接口返回的响应报文为： {"dep_id":"flower","dep_name":"百花仙子","master_name":"其实就是花园的园丁","slogan":"人无千日好，花无百日红。"}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt6_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test002_update_inverse</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt6_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt6_2'>通过</button>
+    <div id='div_pt6_2' class="collapse">  -->
+
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt6_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt6_2'>通过</button>
+    <div id='div_pt6_2' class="collapse in">
+    <pre>
+    
+pt6_2: 更新接口maste_name缺失，返回的响应报文为： {"master_name":["该字段是必填项。"],"status_code":400}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>APITest07_delete.Departments005</td>
+    <td class="text-center">2</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c7',2)" class="detail" id='c7'>详细</a></td>
+</tr>
+
+<tr id='pt7_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test001_delete_right</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test002_delete_inverse</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='total_row' class="text-center active">
+    <td>总计</td>
+    <td>51</td>
+    <td>23</td>
+    <td>28</td>
+    <td>0</td>
+    <td>通过率：45.10%</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+    <div style=" position:fixed;right:50px; bottom:30px; width:20px; height:20px;cursor:pointer">
+    <a href="#"><span class="glyphicon glyphicon-eject" style = "font-size:30px;" aria-hidden="true">
+    </span></a></div>
+    
+
+</body>
+</html>

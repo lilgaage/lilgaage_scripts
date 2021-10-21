@@ -1,0 +1,36 @@
+type,number,title,dep_id,dep_name,master_name,slogan,expect,code
+正向用例,DEP_POST_001,覆盖所有必选和可选，返回正常,lizhangge,小瑰,李张格,所有瑰丝是一家,返回正确的响应报文，状态码为201,201
+逆向用例,DEP_POST_003,dep_id为空，提示错误,,二皇子,海云帆,万法仙门,提示dep_id不能为空，状态码为400,400
+逆向用例,DEP_POST_004,dep_name为空，提示错误,王陆,,许凯,王陆是王舞的徒弟,提示dep_name不能为空，状态码为400,400
+逆向用例,DEP_POST_005,master_name为空，提示错误,王舞,张榕容,,五长老,提示master_name不能为空，状态码为400,400
+正向用例,DEP_POST_014,所有参数取最大值，返回正常,驭兽宗掌门是万兽之王,体内藏着六百六十六种兽魂六百六十六种兽魂,体内藏着六百六十六种兽魂六百六十六种兽魂,体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂,返回正确的响应报文，状态码为201,201
+正向用例,DEP_POST_015,所有参数取最小值，返回正常,黑,地,仙,,返回正确的响应报文，状态码为201,201
+逆向用例,DEP_POST_016,dep_id超出最大值，提示错误,万兽之王就是驭兽宗掌门,万兽之王,万兽之王,万兽之王,提示dep_id超出最大值，状态码为400,400
+逆向用例,DEP_POST_017,dep_name超出最大值，提示错误,驭兽宗掌门,体内藏着六百六十六种兽魂和六百六十六种兽魂,驭兽宗掌门,驭兽宗掌门,提示dep_name超出最大值，状态码为400,400
+逆向用例,DEP_POST_018,master_name超出最大值，提示错误,驭兽宗,驭兽宗,体内藏着六百六十六种兽魂和六百六十六种兽魂,驭兽宗,提示master_name超出最大值，状态码为400,400
+逆向用例,DEP_POST_019,slogan超出最大值，提示错误,万兽之王,万兽之王,万兽之王,体内藏着六百六十六种兽魂和六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂体内藏着六百六十六种兽魂六百六十六种兽魂,提示slogan超出最大值，状态码为400,400
+逆向用例,DEP_POST_020,dep_id重复性验证，提示错误,黑,大乘巅峰,地仙,堕仙走狗,提示dep_id已存在，不能新增，状态码为200,200
+逆向用例,DEP_POST_021,dep_id前后添加/，提示非法字符,/test001/,test001,test001,test001,提示dep_id包含非法符号，状态码为400,400
+逆向用例,DEP_POST_022,dep_id前后添加空格，提示非法字符, test002 ,test002,test002,test002,提示dep_id包含非法符号，状态码为400,400
+逆向用例,DEP_POST_023,dep_id前后添加%，提示非法字符,%test003%,test003,test003,test003,提示dep_id包含非法符号，状态码为400,400
+逆向用例,DEP_POST_024,dep_id前后添加$，提示非法字符,$test004$,test004,test004,test004,提示dep_id包含非法符号，状态码为400,400
+逆向用例,DEP_POST_025,dep_id前后添加#，提示非法字符,#test005#,test005,test005,test005,提示dep_id包含非法符号，状态码为400,400
+逆向用例,DEP_POST_026,dep_id前后添加@，提示非法字符,@test006@,test006,test006,test006,提示dep_id包含非法符号，状态码为400,400
+逆向用例,DEP_POST_027,dep_name前后添加/，提示非法字符,test007,/test007/,test007,test007,提示dep_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_028,dep_name前后添加空格，提示非法字符,test008, test008 ,test008,test008,提示dep_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_029,dep_name前后添加%，提示非法字符,test009,%test009%,test009,test009,提示dep_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_030,dep_name前后添加$，提示非法字符,test010,$test010$,test010,test010,提示dep_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_031,dep_name前后添加#，提示非法字符,test011,#test011#,test011,test011,提示dep_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_032,dep_name前后添加@，提示非法字符,test012,@test012@,test012,test012,提示dep_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_033,master_name前后添加/，提示非法字符,test013,test013,/test013/,test013,提示master_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_034,master_name前后添加空格，提示非法字符,test014,test014, test014 ,test014,提示master_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_035,master_name前后添加%，提示非法字符,test015,test015,%test015%,test015,提示master_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_036,master_name前后添加$，提示非法字符,test016,test016,$test016$,test016,提示master_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_037,master_name前后添加#，提示非法字符,test017,test017,#test017#,test017,提示master_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_038,master_name前后添加@，提示非法字符,test018,test018,@test018@,test018,提示master_name包含非法符号，状态码为400,400
+逆向用例,DEP_POST_039,slogan前后添加/，提示非法字符,test019,test019,test019,/test019/,提示slogan包含非法符号，状态码为400,400
+逆向用例,DEP_POST_040,slogan前后添加空格，提示非法字符,test020,test020,test020, test020 ,提示slogan包含非法符号，状态码为400,400
+逆向用例,DEP_POST_041,slogan前后添加%，提示非法字符,test021,test021,test021,%test021%,提示slogan包含非法符号，状态码为400,400
+逆向用例,DEP_POST_042,slogan前后添加$，提示非法字符,test022,test022,test022,$test022$,提示slogan包含非法符号，状态码为400,400
+逆向用例,DEP_POST_043,slogan前后添加#，提示非法字符,test023,test023,test023,#test023#,提示slogan包含非法符号，状态码为400,400
+逆向用例,DEP_POST_044,slogan前后添加@，提示非法字符,test024,test024,test024,@test024@,提示slogan包含非法符号，状态码为400,400
